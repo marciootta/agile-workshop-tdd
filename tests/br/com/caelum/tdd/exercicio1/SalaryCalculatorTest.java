@@ -3,6 +3,7 @@ package br.com.caelum.tdd.exercicio1;
 import static br.com.caelum.tdd.exercicio1.Position.DBA;
 import static br.com.caelum.tdd.exercicio1.Position.DEVELOPER;
 import static br.com.caelum.tdd.exercicio1.Position.TESTER;
+import static br.com.caelum.tdd.exercicio1.Position.PROJECT_MANAGER;
 
 import static org.junit.Assert.assertEquals;
 
@@ -86,8 +87,33 @@ public class SalaryCalculatorTest {
 		return funcionario;
 	}
 	
-
+	
 	private double comSalarioBase(double salario) {
 		return salario;
+	}
+	
+	@Test
+	public void gerenteDeveDescontar15seCasoGenerico(){
+		Employee gerente = umFuncionario(PROJECT_MANAGER, comSalarioBase(4000.0));
+		double salary = calculator.calculate(gerente);
+		assertEquals(4000.0 * 0.85, salary, 0.000001);
+	}
+	@Test
+	public void gerenteDeveDescontar15seMaiorQue5000(){
+		Employee gerente = umFuncionario(PROJECT_MANAGER, comSalarioBase(5001.0));
+		double salary = calculator.calculate(gerente);
+		assertEquals(5001.0 * 0.80, salary, 0.000001);
+	}
+	@Test
+	public void gerenteGanha0(){
+		Employee gerente = umFuncionario(PROJECT_MANAGER, comSalarioBase(0.0));
+		double salary = calculator.calculate(gerente);
+		assertEquals(0.0, salary, 0.000001);
+	}
+	@Test
+	public void gerenteDeveDescontar20seGanha5000(){
+		Employee gerente = umFuncionario(PROJECT_MANAGER, comSalarioBase(5000.0));
+		double salary = calculator.calculate(gerente);
+		assertEquals(5000.0 * 0.80, salary, 0.000001);
 	}
 }
